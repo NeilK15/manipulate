@@ -24,12 +24,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.tag == "Bounce Pad")
-        {
-            
-            hit.gameObject.GetComponentInParent<BouncePad>().BouncePlayer();
-            Debug.Log("Player hit Pad");
-        }
 
         Rigidbody body = hit.collider.attachedRigidbody;
         if (body == null || body.isKinematic)
