@@ -1,111 +1,101 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementPhysics : MonoBehaviour
 {
+    [Header("Movement Settings")]
+    public float acceleration;
+    public float maxSpeed;
 
-    public float speed = 100000f;
-    public float maxSpeed = 20f;
-    public float jumpForce = 300f;
+    [Space(10)]
+    public float jumpForce;
 
-    private float threshold = 0.01f;
+    [Space(10)]
+    public float groundDrag;
 
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
+    [Header("Ground Check")]
+    public float playerHeight;
+    public LayerMask groundCheck;
+    private bool grounded;
 
-    public float counterMovement = 0.375f;
-    private bool jumping;
 
-    float x;
-    float z;
+    [Header("Other Required Fields")]
+    public Transform orientation;
 
-    bool isGrounded;
-
+    // Other Private fields
     private Rigidbody rb;
 
-    // Start is called before the first frame update
-    void Start()
+    private float horizontalInput;
+    private float verticalInput;
+
+    private Vector3 moveDirection;
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        GetInput();
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundCheck);
+
+        MyInput();
+
+        LimitSpeed();
+
+        Drag();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+
+    private void MyInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+    }
+
+
+    private void Move()
     {
 
-        Movement();
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        rb.AddForce(moveDirection.normalized * acceleration * Time.deltaTime * rb.mass, ForceMode.Force);
+
+    }
+
+    private void Drag()
+    {
+        if (grounded)
+        {
+            rb.drag = groundDrag;
+        } 
+        else
+        {
+            rb.drag = 0;
+        }
+    }
+
+    private void LimitSpeed()
+    {
         
-    }
+        // Getting flat velocity
+        Vector3 flatVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-    void Movement()
-    {
-        // Extra Grav
-        rb.AddForce(Vector3.down * 10f * Time.deltaTime);
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (jumping && isGrounded)
+        // Checking if travelling too fast
+        if (flatVelocity.magnitude > maxSpeed)
         {
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
+            Vector3 maxVelocity = flatVelocity.normalized * maxSpeed;
+            rb.velocity = new Vector3(maxVelocity.x, rb.velocity.y, maxVelocity.z);
         }
 
-        CounterMovement(x, z, FindVelRelativeToLook());
-
-        rb.AddForce(transform.right * speed * x * Time.deltaTime);
-        rb.AddForce(transform.forward * speed * z * Time.deltaTime);
-        rb.velocity  = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-
     }
 
-    void GetInput()
-    {
-        x = Input.GetAxis("Horizontal");
-        z = Input.GetAxis("Vertical");
-
-        jumping = Input.GetButton("Jump");
-    }
-
-    private void CounterMovement(float x, float y, Vector2 mag)
-    {
-        if (!isGrounded || jumping) return;
-
-        if (Mathf.Abs(mag.x) > threshold && Mathf.Abs(x) < 0.05f || (mag.x < -threshold && x > 0) || (mag.x > threshold && x < 0))
-        {
-            rb.AddForce(speed * transform.right * Time.deltaTime * -mag.x * counterMovement);
-        }
-        if (Mathf.Abs(mag.y) > threshold && Mathf.Abs(y) < 0.05f || (mag.y < -threshold && y > 0) || (mag.y > threshold && y < 0))
-        {
-            rb.AddForce(speed * transform.forward * Time.deltaTime * -mag.y * counterMovement);
-        }
-
-        if (Mathf.Sqrt((Mathf.Pow(rb.velocity.x, 2) + Mathf.Pow(rb.velocity.z, 2))) > maxSpeed)
-        {
-            float fallspeed = rb.velocity.y;
-            Vector3 n = rb.velocity.normalized * maxSpeed;
-            rb.velocity = new Vector3(n.x, fallspeed, n.z);
-        }
-    }
-
-    public Vector2 FindVelRelativeToLook()
-    {
-        float lookAngle = transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(rb.velocity.x, rb.velocity.z) * Mathf.Rad2Deg;
-
-        float u = Mathf.DeltaAngle(lookAngle, moveAngle);
-        float v = 90 - u;
-
-        float magnitue = rb.velocity.magnitude;
-        float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
-        float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
-
-        return new Vector2(xMag, yMag);
-    }
 
 }
 
