@@ -1336,16 +1336,6 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 8709282831015778350, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
   m_PrefabInstance: {fileID: 8709282830441870914}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1677717102 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8709282831015778348, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
-  m_PrefabInstance: {fileID: 8709282830441870914}
-  m_PrefabAsset: {fileID: 0}
---- !u!153 &1677717103 stripped
-ConfigurableJoint:
-  m_CorrespondingSourceObject: {fileID: 1677717103, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
-  m_PrefabInstance: {fileID: 8709282830441870914}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1694523001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,14 +1384,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028660880}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd017c3245f879445808813b83105576, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f6799a035463724a89e0dc6422555c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hipsPos: {fileID: 1677717102}
-  hipsTarget: {fileID: 607844167}
-  headJoint: {fileID: 1677717103}
+  balanced: 1
+  hips: {fileID: 0}
+  affected:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &8709282830441870914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1409,6 +1401,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 85000766, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 91345819, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 446717032, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 482896055, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 613852809, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 716159198, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 1033150849, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 1049750386, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 1260239949, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
     - target: {fileID: 1470004118, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
       propertyPath: m_AngularXDrive.positionSpring
       value: 2000
@@ -1417,6 +1445,14 @@ PrefabInstance:
       propertyPath: m_AngularYZDrive.positionSpring
       value: 2000
       objectReference: {fileID: 0}
+    - target: {fileID: 1470004119, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 1551805819, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
     - target: {fileID: 1677717103, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
       propertyPath: m_XMotion
       value: 2
@@ -1449,6 +1485,22 @@ PrefabInstance:
       propertyPath: m_YDrive.positionSpring
       value: 5000
       objectReference: {fileID: 0}
+    - target: {fileID: 1677717104, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 1750187537, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 1917869412, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
+    - target: {fileID: 2138307821, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 2028660880}
     - target: {fileID: 521613736481973525, guid: 9974f991b687eb04f8c587cca99c98e1, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
