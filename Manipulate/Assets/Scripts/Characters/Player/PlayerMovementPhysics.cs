@@ -65,7 +65,8 @@ public class PlayerMovementPhysics : MonoBehaviour
 
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        rb.AddForce(moveDirection.normalized * acceleration * Time.deltaTime * rb.mass, ForceMode.Force);
+        if (grounded)
+            rb.AddForce(moveDirection.normalized * acceleration * Time.deltaTime * rb.mass, ForceMode.Force);
 
     }
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
-    public bool balanced = true;
     public Rigidbody hips;
     public LayerMask affected;
 
@@ -15,18 +14,20 @@ public class EnemyController : MonoBehaviour
     public float uprightTorque;
 
     private enum BALANCE_MODE { BALANCED, UNBALANCED };
+    [SerializeField]
+    private BALANCE_MODE balanceMode = BALANCE_MODE.BALANCED;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        hips.maxAngularVelocity = Mathf.Infinity;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        Balance();
     }
 
     public void Damage(float damage)
@@ -34,28 +35,17 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    public void ToggleBalance()
+    void Balance()
     {
-        if (balanced)
-        {
-            balanced = false;
-            Balance(BALANCE_MODE.UNBALANCED);
-        } else
-        {
-            balanced = true;
-            Balance(BALANCE_MODE.BALANCED);
-        }
-    }
-
-    void Balance(BALANCE_MODE balance_mode)
-    {
-        switch(balance_mode)
+        switch(balanceMode)
         {
             case BALANCE_MODE.BALANCED:
                 Quaternion rot = Quaternion.FromToRotation(hips.transform.up, Vector3.up);
-                hips.AddTorque(new Vector3(rot.x, rot.y, rot.z) * -uprightTorque);
+                hips.AddTorque(new Vector3(rot.x, rot.y, rot.z) * uprightTorque * Time.fixedDeltaTime);
 
                 //float angle = Vector3.SignedAngle(hips.transform.forward, TargetDirection, Vector3.up) / 180;
+
+                //hips.AddRelativeTorque(0, percent * manualTorque, 0);
 
                 ragdoll(true);
                 break;
@@ -69,11 +59,11 @@ public class EnemyController : MonoBehaviour
     public IEnumerator FallDown()
     {
 
-        Balance(BALANCE_MODE.UNBALANCED);
+        balanceMode = BALANCE_MODE.UNBALANCED;
 
         yield return new WaitForSeconds(2f);
 
-        Balance(BALANCE_MODE.BALANCED);
+        balanceMode = BALANCE_MODE.BALANCED;
     }
 
 

@@ -81,7 +81,8 @@ public class CopyLimbs : MonoBehaviour
         //Debug.Log(collision.gameObject.name);
         if ((objects.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
-            StartCoroutine(controller.FallDown());
+            Debug.Log(collision.relativeVelocity);
+            //StartCoroutine(controller.FallDown());
             Debug.Log(collision.gameObject.name);
         }
     }
