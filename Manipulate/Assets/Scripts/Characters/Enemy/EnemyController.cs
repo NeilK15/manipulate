@@ -12,6 +12,9 @@ public class EnemyController : MonoBehaviour
 
     public delegate void Ragdoll(bool state);
     public Ragdoll ragdoll;
+    public float uprightTorque;
+
+    private enum BALANCE_MODE { BALANCED, UNBALANCED };
 
 
     // Start is called before the first frame update
@@ -36,35 +39,43 @@ public class EnemyController : MonoBehaviour
         if (balanced)
         {
             balanced = false;
-            UnBalance();
+            Balance(BALANCE_MODE.UNBALANCED);
         } else
         {
             balanced = true;
-            Balance();
+            Balance(BALANCE_MODE.BALANCED);
         }
     }
 
-    void Balance()
+    void Balance(BALANCE_MODE balance_mode)
     {
+        switch(balance_mode)
+        {
+            case BALANCE_MODE.BALANCED:
+                Quaternion rot = Quaternion.FromToRotation(hips.transform.up, Vector3.up);
+                hips.AddTorque(new Vector3(rot.x, rot.y, rot.z) * -uprightTorque);
 
+                //float angle = Vector3.SignedAngle(hips.transform.forward, TargetDirection, Vector3.up) / 180;
 
-        ragdoll(true);
-    }
+                ragdoll(true);
+                break;
 
-    void UnBalance()
-    {
-
-
-        ragdoll(false);
+            case BALANCE_MODE.UNBALANCED:
+                ragdoll(false);
+                break;
+        }
     }
 
     public IEnumerator FallDown()
     {
 
-        UnBalance();
+        Balance(BALANCE_MODE.UNBALANCED);
 
         yield return new WaitForSeconds(2f);
 
-        Balance();
+        Balance(BALANCE_MODE.BALANCED);
     }
+
+
+
 }
