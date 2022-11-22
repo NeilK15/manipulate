@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class PickUp : Interactable
+public class PickUp : MonoBehaviour, IInteractable
 {
     public Outline[] outlines;
 
     public Color outLineColor = Color.red;
     private static Color defaultOutline = Color.white;
 
-
-    public override void Interact()
+    public void Interact()
     {
-        base.Interact();
+        print("Picking up " + gameObject.name);
     }
 
     public void Hover()

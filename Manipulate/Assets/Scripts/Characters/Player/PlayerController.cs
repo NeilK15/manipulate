@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float pushForce = 20f;
+
     private bool locationSet = false;
     private Vector3 setPosition;
     private Quaternion setRotation;
@@ -12,7 +12,11 @@ public class PlayerController : MonoBehaviour
     [Header("Pick Up Settings")]
     public float pickUpCircleRadius;
     public float pickUpDistance;
-    public LayerMask itemLayer;
+    public LayerMask interactableLayer;
+
+    [Header("For Visualizing Interaction")]
+    public Transform pointer;
+    public bool usePointer = false;
 
     private Camera cam;
     private PickUp focus = null;
@@ -34,7 +38,7 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        PickUp();
+        Interact();
     }
 
     private void SetLocation ()
@@ -62,37 +66,46 @@ public class PlayerController : MonoBehaviour
 
 
 
-    // Method for picking up items
-    private void PickUp()
+    // Method for interacting with items
+    private void Interact()
     {
         // Shoot sphere cast in direction of mouse check if intersecting with an item
 
         Vector3 direction = cam.transform.forward;
 
         RaycastHit hit;
-        if (Physics.SphereCast(cam.transform.position, pickUpCircleRadius, direction, out hit, pickUpDistance, itemLayer))
+        if (Physics.SphereCast(cam.transform.position, pickUpCircleRadius, direction, out hit, pickUpDistance, interactableLayer))
         {
 
-            // Getting the pickup from the object
-            PickUp itemPickup = hit.collider.transform.root.GetComponent<PickUp>();
+            IInteractable interactable = hit.transform.GetComponent<IInteractable>();
 
-            if (itemPickup != null)
+            if (interactable != null)
             {
-                if (focus != itemPickup) {
-                    focus = itemPickup;
-                    itemPickup.Hover();
+
+                // Behavior when hovering over an interactable
+                if (usePointer)
+                {
+                    pointer.gameObject.SetActive(true);
+                    pointer.position = hit.point;
                 }
 
-                // Checking if pressing the use button
-                if (Input.GetButtonDown("Use"))
+                if (Input.GetButtonDown("Interact"))
                 {
-                    itemPickup.Interact();
+                    // Behavior when interacting
+                    interactable.Interact();
                 }
+
             }
+
+            
 
         }
         else
         {
+            
+            if (usePointer)
+            pointer.gameObject.SetActive(false);
+
             if (focus != null)
             {
                 focus.UnHover();
