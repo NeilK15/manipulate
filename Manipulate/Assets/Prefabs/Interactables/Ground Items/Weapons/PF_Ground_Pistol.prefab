@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 6943128920509576886}
   - component: {fileID: 6943128920509576887}
   m_Layer: 8
-  m_Name: Better Ground Pistol
+  m_Name: PF_Ground_Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

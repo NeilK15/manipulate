@@ -18,10 +18,13 @@ public class Button : MonoBehaviour, IInteractable
     // Called when player interacts with button
     public void Interact()
     {
-        // Play pressAnimation
-        pressAnimation.Play();
-
         // Play pressEffect
+        if (!pressAnimation.isPlaying)
+            pressEffect?.Play();
+
+        // Play pressAnimation
+        pressAnimation?.Play();
+
     }
 
     // Called when button finished pressing

@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 7471126970024563682}
   - component: {fileID: 7471126970024563683}
   m_Layer: 0
-  m_Name: BounceEffect
+  m_Name: PF_BounceEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

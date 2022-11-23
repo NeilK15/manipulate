@@ -9,8 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37dc9d436257fd044b67e3c42f31ee91, type: 3}
+  m_Script: {fileID: 11500000, guid: 542759712de1b974cb092d3ede39296b, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  name: New Item
+  name: Pistol
   icon: {fileID: 0}
+  damageModifier: 22
+  weaponType: 1
+  maxDistance: 200
+  currentAmmo: 18
+  magSize: 31
+  fireRate: 600
+  reloadTime: 1.5
+  reloading: 0
