@@ -8,6 +8,8 @@ public class Gun : MonoBehaviour
     [Header("Reference")]
     public GunData gunData;
     public Transform muzzle;
+    public ParticleSystem muzzleFlash;
+    public Animation recoilAnimation;
     public GameObject lineRenderer;
 
     float timeSinceLastShot;
@@ -71,7 +73,11 @@ public class Gun : MonoBehaviour
 
     public void OnGunShot()
     {
-
+        muzzleFlash.Play();
+        Quaternion rotation = transform.rotation;
+        recoilAnimation.Stop();
+        transform.rotation = rotation;
+        recoilAnimation.Play();
     }
 
 }

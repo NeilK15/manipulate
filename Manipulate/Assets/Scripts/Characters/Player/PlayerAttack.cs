@@ -10,11 +10,15 @@ public class PlayerAttack : MonoBehaviour
     [HideInInspector]
     public static Action reloadInput;
 
+    public static WeaponData activeWeapon;
+
     public KeyCode reloadKey;
 
     private void Update()
     {
-        if (Input.GetButton("Fire1"))
+        
+        
+        if (Input.GetButtonDown("Fire1"))
         {
             shootInput?.Invoke();
         }
